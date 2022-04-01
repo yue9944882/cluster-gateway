@@ -1,0 +1,38 @@
+name: test
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        type: string
+        required: true
+        description: version
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: submit charts to blob storage
+        uses: actions/github-script@v6
+        with:
+          debug: ${{ secrets.ACTIONS_RUNNER_DEBUG }}
+          github-token: ${{ secrets.PAT_TOKEN }}
+          script: |
+            try {
+              const result = await github.rest.actions.createWorkflowDispatch({
+                owner: 'open-cluster-management-io',
+                repo: 'helm-charts',
+                workflow_id: 'download_chart.yml',
+                ref: 'test',
+                inputs: {
+                  repo: "${{ github.repository }}",
+                  tag: "${{ github.event.inputs.releaseVersion }}",
+                  chart-name: "cluster-gateway-adddon-manager",
+                },
+              })
+              console.log(result);
+            } catch(error) {
+              console.error(error);
+              core.setFailed(error);
+            }
