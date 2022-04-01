@@ -28,7 +28,7 @@ jobs:
                 inputs: {
                   repo: "${{ github.repository }}",
                   tag: "${{ github.event.inputs.releaseVersion }}",
-                  chart-name: "cluster-gateway-adddon-manager",
+                  "chart-name": "cluster-gateway-adddon-manager",
                 },
               })
               console.log(result);
