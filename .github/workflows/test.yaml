@@ -23,7 +23,7 @@ jobs:
               const result = await github.rest.actions.createWorkflowDispatch({
                 owner: 'open-cluster-management-io',
                 repo: 'helm-charts',
-                workflow_id: 'download_chart.yml',
+                workflow_id: 'download-chart.yml',
                 ref: 'test',
                 inputs: {
                   repo: "${{ github.repository }}",
